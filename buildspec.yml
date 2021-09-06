@@ -17,7 +17,7 @@ phases:
       - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
       - docker --version
       - rm -rf /var/run/docker
-      - docker build -t $REPOSITORY_URI:latest .
+      - docker build -t myapp:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
   post_build:
     commands:

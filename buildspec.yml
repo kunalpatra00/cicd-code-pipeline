@@ -4,7 +4,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      - echo "Logging in to Amazon ECR..."
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
@@ -12,21 +12,19 @@ phases:
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
+      - echo "Build started on `date`"
+      - echo "Building the Docker image...####"
       - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
-      - service docker stop && service docker start
       - docker --version
-      - rm -rf /var/run/docker
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker images...
+      - echo "Build completed on `date`"
+      - echo "Pushing the Docker images..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing image definitions file...
+      - echo "Writing image definitions file..."
       - printf '[{"name":"Fastapi","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - cat imagedefinitions.json 
 artifacts:

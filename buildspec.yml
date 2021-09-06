@@ -16,7 +16,6 @@ phases:
       - echo Building the Docker image...
       - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
       - docker --version
-      - service docker start
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
   post_build:

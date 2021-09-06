@@ -15,7 +15,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
-      - sudo service docker stop && sudo service docker start
+      - service docker stop && service docker start
       - docker --version
       - rm -rf /var/run/docker
       - docker build -t $REPOSITORY_URI:latest .

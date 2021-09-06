@@ -2,6 +2,10 @@ version: 0.2
 
 
 phases:
+  install:
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -15,8 +19,6 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
-      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
   post_build:

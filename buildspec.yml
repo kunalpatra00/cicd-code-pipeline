@@ -14,7 +14,6 @@ phases:
     commands:
       - echo "Build started on `date`"
       - echo "Building the Docker image...####"
-      - REPOSITORY_URI=010559570310.dkr.ecr.us-east-1.amazonaws.com/my-app
       - docker --version
       - echo "#########################################################" 
       - echo "##########################################################"
